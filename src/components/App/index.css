@@ -1,0 +1,274 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.4em;
+    background: #f5f5f5;
+    color: #4d4d4d;
+    min-width: 230px;
+    max-width: 550px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 300;
+}
+
+header {
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: space-evenly;*/
+    /*border: none;*/
+ /*   background: rgba(0, 0, 0, 0.02);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.058);
+    flex-direction: column;*/
+}
+
+
+.input-container {
+    display: flex;
+    flex-direction: row;
+}
+h1 {
+    position: absolute;
+    top: -135px;
+    width: 100%;
+    font-size: 100px;
+    font-weight: 100;
+    text-align: center;
+    color: rgba(175, 47, 47, 0.15);
+    -webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+}
+
+.todoapp{
+    background: #fff;
+    margin: 130px 0 40px 0;
+    position: relative;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+}
+
+.toggle-all {
+    display: none;
+}
+
+.toggle {
+    cursor: pointer;
+    text-align: center;
+    width: 40px;
+    height: auto;
+    position: absolute;
+    margin: auto 0;
+    border: none;
+}
+
+
+
+.toggle-all + label {
+    font-size: 0;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+
+
+.toggle-all:checked + label:before {
+    color: #737373;
+}
+
+.toggle-all + label:before {
+    content: '❯';
+    font-size: 22px;
+    color: #e6e6e6;
+}
+
+.input-container {
+    background: #fff;
+    /*margin: 130px 0 40px 0;*/
+    /*position: relative;*/
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    /*top: -150px;*/
+}
+
+.new-todo {
+    position: relative;
+    margin: 0;
+    font-size: 24px;
+    left: 23px;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: 1.4em;
+    border: 0;
+    color: inherit;
+    padding: 6px;
+    box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 16px 16px 16px;
+    background: rgba(0, 0, 0, 0.003);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0);
+
+    outline: none;
+    margin: 0;
+    width: 82%;
+    color: inherit;
+    padding: 6px;
+    box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 16px 16px 16px;
+    background: rgba(0, 0, 0, 0.003);
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0);
+}
+
+.todoapp input::-webkit-input-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #e6e6e6;
+}
+
+.todoapp input::-moz-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #e6e6e6;
+}
+
+
+.todoapp input::-webkit-input-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #e6e6e6;
+}
+
+.todoapp input::-moz-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #e6e6e6;
+}
+
+footer {
+    display: flex;
+    color: #777;
+    padding: 10px 15px;
+    height: 50px;
+    text-align: center;
+    border-top: 1px solid #e6e6e6;
+}
+
+.footer:before {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2),
+    0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
+}
+
+/*Листочки*/
+
+.filters {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    right: 0;
+    left: 0;
+}
+
+.filters button:hover {
+    border-color: rgba(168, 39, 39, 0.39);
+}
+
+.tabs-select.selected {
+    border-color: rgba(255, 115, 0, 0.61);
+}
+
+.tabs-select {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #fff;
+    color: inherit;
+    margin: 4px;
+    padding: 3px 12px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.button1 {
+    display: flex;
+    padding-right: 28px;
+    width: 45%;
+    justify-content: space-between;
+    color: inherit;
+}
+.button1 {
+    display: flex;
+    align-items: center;
+    color: inherit;
+}
+/*Подсветка кнопок, которая не работает*/
+
+
+.tab-select-item:hover, .active {
+    border: 1px solid rgba(175, 47, 47, 0.1);
+    border-radius: 4px;
+}
+
+
+.tab-select-item:nth-child(1){
+    width: 45px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+}
+.tab-select-item:nth-child(2){
+    width: 76px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tab-select-item:nth-child(3){
+    width: 100px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnClear {
+    color: inherit;
+    text-decoration: none;
+    border: none;
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    display: block;
+    float: right;
+    position: relative;
+    line-height: 20px;
+    cursor: pointer;
+    padding: 3px 5px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    outline: none;
+}
+
+/*Подсветка при наведении*/
+
+.btnClear:hover {
+    border-color: rgba(175, 47, 47, 0.1);
+}
+
+
