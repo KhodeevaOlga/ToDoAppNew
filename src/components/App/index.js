@@ -4,6 +4,8 @@ import Input from '../Input/input';
 import {Button} from '../Button/button';
 import TodoList from '../TodoList/list';
 import Header from '../Header/header';
+import Footer from '../Footer';
+import Axios from 'axios';
 
 
 const App = () => {
@@ -15,6 +17,14 @@ const App = () => {
   const [checkAll, setCheckAll] = useState(true);
   const enterNewTask = (e) => setNewTasks(e.target.value);
 
+  useEffect( () => {
+    const fetchTodoAndSetTodos = async () => {
+      const todos = await Axios.get('http://localhost:3003/todo')
+    setTasks(todos.data)}
+    // Для получения ресурсов
+    fetchTodoAndSetTodos()
+  }, [])
+
   const addNewTaskOnEnter = (e) => {
     if (e.key === 'Enter') {
       addNewTask();
@@ -22,12 +32,21 @@ const App = () => {
   };
 
   // Добавление новой таски с условием, если строка не пустая
-  const addNewTask = () => {
-    if (newTask !== '')
-      setTasks([
-        ...tasks,
-        {id: Math.random(), title: newTask, done: false}
-      ]);
+  const addNewTask = async () => {
+    if (newTask !== ''){
+      const createNewTodo = {title: newTask}
+      const newTodo = await Axios.post('http://localhost:3003/todo/create', createNewTodo)
+      setTasks([...tasks, newTodo.data]);}
+
+    // Передаю объект на сервер (его св-ва)
+//const hi = 'Привет';
+
+   /* const hello = {title: 'hi my friend'}
+   Дорожка:
+    const hi = await Axios.post('http://localhost:3003/hi', hello)*/
+
+
+
 
     setNewTasks('');
   };
@@ -44,15 +63,38 @@ const App = () => {
     setCounters(result);
   };
 
-  // Кнопка чек олл. (Вторая строчка меняет все чекнутые на обратные)
+// Чек статус
 
-  const checked = () => {
+  const changeTodoStatus = async (elem, check) => {
+    const checked = check.target.checked;
+
+    const changeOneStatus = {checked: checked}
+    await Axios.patch('http://localhost:3003/check/' + elem._id, changeOneStatus)
+      .then((res) => console.log(res))
+      .catch(
+        (err) => console.log(err))
+
+    const changeOne = tasks.map((item) => (item._id === elem._id ? {...item, done: checked} : item));
+    setTasks(changeOne);
+  };
+
+  // Кнопка чек олл. (Изменение чекнутых на обратные)
+
+  const checked = async () => {
     setCheckAll(!checkAll);
+    const ids = tasks.map((item) => item._id)
+
+    const changeStatus = {ids: ids, checked: checkAll}
+    await Axios.patch('http://localhost:3003/check', changeStatus)
+      .then((res) => console.log(res))
+      .catch(
+        (err) => console.log(err))
     const test = tasks.map((item) => ({
       ...item,
       done: checkAll,
     }));
     setTasks(test)
+
     };
 
   // Хук: если меняются таксы, срабатывает счетчик
@@ -78,27 +120,59 @@ const App = () => {
 
   // Удаление
 
-  const deleteTodo = (id) => {
+  const deleteTodo = async (id) => {
 
-    const filteredTodo = tasks.filter((elem) => id !== elem.id);
+    // По параметрам айди ищет и приходит на бэк в индекс (в req)
+    await Axios.delete('http://localhost:3003/todo/' + id)
 
+    const filteredTodo = tasks.filter((elem) => id !== elem._id);
     setTasks(filteredTodo);
     count(filteredTodo);
   };
-  const deleteAllComplete = () => {
 
-    const filteredCompleteTodo = tasks.filter((elem) => !elem.done);
+  // Кнопка делит олл комплит -> сервер
 
-    setTasks(filteredCompleteTodo);
-    count(filteredCompleteTodo);
-  };
-  const changeTodoStatus = (elem, check) => {
-    const checked = check.target.checked;
-    const changeOne = tasks.map((item) => (item.id === elem.id ? {...item, done: checked} : item));
-    setTasks(changeOne);
+ /* const deleteAllComplete = async (id) => {*/
+    /*await Axios.delete('http://localhost:3003)
+    const filteredTodo = tasks.filter((elem) => id !== elem._id);
+    setTasks(filteredTodo);
+    count(filteredTodo);*/
+
+    /*const fil = tasks.filter((elem) => elem.done);
+    const */
+
+
+
+    const deleteAllComplete = async () => {
+      try{
+        await Axios.delete('http://localhost:3003/deleteCompleted')
+        // выполнив условия выше, идет на бэк. Там отображает выполненые (которые мы убрали), после чего выполняет
+        // const todos = await Axios.get и показывает обновленный список тудух от бэка
+
+        const todos = await Axios.get('http://localhost:3003/todo')
+        setTasks(todos.data)
+      } catch (e) {
+        console.log('555555555555555555 ');
+      }
+    }
+
+
+  const setActiveTabProps = event => {
+    setActiveTab(event.target.id)
   };
 
   console.log(showTasks);
+
+  //Создаю апдейт туду (для сохранения и передачи изменений) и принимаю его в листе
+ const updateTodo = async (value, id) => {
+   try{
+     const editValue = {id: id, value: value}
+     await Axios.put('http://localhost:3003/changes', editValue)
+   } catch (e) {
+     console.log('555555555555555555 ');
+   }
+ }
+
   return (
     <div className="todoapp">
               <Header
@@ -113,39 +187,16 @@ const App = () => {
               todo={showTasks}
               deleteTodo={deleteTodo}
               changeTodoStatus={changeTodoStatus}
+              updateTodo={updateTodo}
             />
+            <Footer
+              activeTab={activeTab}
+              setActiveTab={setActiveTabProps}
+              counters={counters}
+              deleteAllComplete={deleteAllComplete}
 
+              />
 
-
-      <div className="footer">
-        <ul className="tabs-select">
-          <div className="button1">
-              <div className={'tab-select-item' + (activeTab === 'all' ? ' active' : '')} onClick={() => {
-                console.log('111');
-                setActiveTab('all');
-              }}>All({counters.all})
-              </div>
-              <div className={'tab-select-item' + (activeTab === 'active' ? ' active' : '')} onClick={() => {
-                setActiveTab('active');
-              }}>Active ({counters.active})
-              </div>
-              <div className={'tab-select-item' + (activeTab === 'complete' ? ' active' : '')} onClick={() => {
-                console.log('Я в комплит');
-
-                setActiveTab('complete');
-              }}>Complete({counters.complete})
-              </div>
-          </div>
-
-
-          <div className="button2">
-            <Button classNameProps="btnClear" nameButton='Clear completed'
-                    onClick={deleteAllComplete}/>
-          </div>
-
-        </ul>
-
-      </div>
 
     </div>
   );

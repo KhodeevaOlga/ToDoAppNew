@@ -5,8 +5,9 @@ import {Button} from '../Button/button';
 import './style.css';
 
 function TodoList(props) {
-  const {todo, deleteTodo, changeTodoStatus} = props;
-  //console.log(todo);
+  // Принимаю пропсы
+  const {todo, deleteTodo, changeTodoStatus, updateTodo} = props;
+  console.log(todo);
 
   return (
 
@@ -14,17 +15,19 @@ function TodoList(props) {
         <ul className="todo-list">
 
             {todo.map((el) => (
-              <li key={el.id}>
+              <li key={el._id}>
                 <Checkbox
                   className="toggle"
                   checked={el.done} onChange={(check) => {
                   changeTodoStatus(el, check)
                 }}/>
 
+                {/*Передаю пропсы. Апдейт переходит в файл айтем*/}
                 <TodoItem
                   className="todo-title"
-                  el={el}/>
-                <Button classNameProps='destroy' onClick={() => {deleteTodo(el.id)}}/>
+                  el={el}
+                  updateTodo={updateTodo}/>
+                <Button classNameProps='destroy' onClick={() => {deleteTodo(el._id)}}/>
               </li>)
             )}
 
